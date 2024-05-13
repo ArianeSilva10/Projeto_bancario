@@ -44,12 +44,13 @@ Qual o valor que deseja sacar?
                 print("Não foi possível realizar o saque por falta de saldo.")
 
     elif opcao == "3":
-        print("EXTRATO")
+        print("================= EXTRATO ==================")
         if extrato == "":
             print("Não foram realizadas movimentações.")
 
-        extrato += f"Saldo atual: {saldo:.2f}\n"
         print(extrato)
+        print(f"Saldo atual: {saldo:.2f}\n")
+        print("===========================================")
 
     elif opcao == "4":
         break

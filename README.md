@@ -2,7 +2,7 @@
 # Projeto : Criando um sistema bancário
 
 ## Objetivo
-Criar um sistema bancário com as operações : depositar, sacar e visualizar extrato.
+Criar um sistema bancário com as operações de acordo com o nível de aprendizado.
 
-## Linguagem e nível
-Projeto utilizando Python em nível Iniciante.
+## Linguagem utilizada
+Projeto utilizando Python.

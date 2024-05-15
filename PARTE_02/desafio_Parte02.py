@@ -21,10 +21,9 @@ Qual o valor que deseja sacar?
         return saldo, extrato
 
 
-
 ####################### DEPOSITO #####################################
 
-def deposito( / saldo, valor, extrato):
+def deposito(saldo, valor, extrato, /):
     valor += float(input('''
 DEPÓSITO
 Qual o valor deseja depositar?
@@ -51,35 +50,52 @@ def extrato(saldo, /,*, extrato):
         print("===========================================")
     return extrato
 
-######################### LISTA DE USUÁRIOS ######################
-#def lista_usuario():
- #    lista = []
 
+######################## FILTRAR USUÁRIO #########################
+
+def filtrar_usuario(cpf, lista_usuarios):
+    cpf_existente = {usuario['CPF'] == cpf for usuario in lista_usuarios}
+    if cpf_existente:
+        return cpf_existente[0]
+    else:
+        return None
 
 
 ######################## CRIAR USUARIO #########################
 
-def criar_usuario(lista_usuarios = []):
+def criar_usuario(lista_usuarios):
     usuario =  {
         "nome": input("Nome: "),
         "data_de_nascimento": input("Data de Nascimento: "),
         "CPF": input("CPF: "),
         "endereco": input("Endereço: ")
     }
-    cpf_existente = {user['CPF'] for user in lista_usuarios} # crio um set de CPFs já que não pode repetir,  percorrendo cada usuario na lista.
-    if usuario['CPF'] not in cpf_existente:
+    cpf_existente = filtrar_usuario(usuario["CPF"], lista_usuarios) # crio um set de CPFs já que não pode repetir,  percorrendo cada usuario na lista.
+    if cpf_existente:
+        print("Usuário já cadastrado neste CPF!")
+    else:
         lista_usuarios.append(usuario)
         print("Usuário criado com sucesso!")
-    else:
-        print("Usuário já cadastrado neste CPF!")
 
 
 ######################## CRIAR CONTA CORRENTE #########################
 
-def criar_conta_corrente(lista_de_contas = [], lista_de_usuarios = []):
-    AGENCIA = 0001
+def criar_conta_corrente(AGENCIA, numero_conta, lista_usuarios):
+    cpf = input("Informe o CPF do usuário: ")
+    usuario = filtrar_usuario(cpf, lista_usuarios)
+
+    if usuario:
+        print("Conta criada com Sucesso!")
+        return {"agencia" : AGENCIA, "numero_conta":numero_conta, "usuario":usuario}
+    else:
+        print("Usuário não encontrado, se deseja criar um usuário, volte ao menu e escolha a opção 'Novo Usuário'.")
 
 
+######################## CRIAR CONTA CORRENTE #########################
+
+def listar_contas(lista_contas, lista_usuarios):
+    cpf = input("Informe o CPF: ")
+    usuario = filtrar_usuario(cpf, lista_usuarios)
 
 
 menu = '''
@@ -87,36 +103,37 @@ menu = '''
 [1] Depositar
 [2] Sacar
 [3] Extrato
-[4] Sair
+[4] Criar Usuário
+[5] Criar Conta Corrente
+[6] Sair
 
 => '''
 
 
+lista_contas = []
+AGENCIA = 0001
+lista_usuarios = []
+
 while True:
     opcao  = input(menu)
-
-####################### DEPOSITO #####################################
 
     if opcao == "1":
         deposito(0, 0, "")
 
-######################## SAQUE ########################################
-
     elif opcao == "2":
         saque(saldo=0, valor_saque=0, extrato="", limite=500, numero_saques=0, LIMITE_SAQUES=3)
-
-#######################################################################
-
-
-########################## EXTRATO ############################
 
     elif opcao == "3":
         extrato(0, extrato="")
 
-
-#################################################################
-
     elif opcao == "4":
+        numero_conta = len(lista_contas) + 1
+        conta_usuario = criar_conta_corrente(AGENCIA, numero_conta, lista_usuarios)
+
+        if conta_usuario:
+            lista_contas.append(conta_usuario)
+
+    elif opcao == "6":
         break
 
     else:

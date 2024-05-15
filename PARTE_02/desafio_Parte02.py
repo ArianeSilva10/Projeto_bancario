@@ -59,14 +59,27 @@ def extrato(saldo, /,*, extrato):
 
 ######################## CRIAR USUARIO #########################
 
-def criar_usuario():
-    usuario =  dict.fromkeys(["nome", "data_nascimento", "CPF", "endereco"])
-    novo_nome = input("Nome: ")
-    data = input("Data de Nascimento: ")
-    cpf = input("CPF: ")
-    Endereco = input("Endereço: ")
-    usuario.update(novo_nome, data, cpf, Endereco)
-    
+def criar_usuario(lista_usuarios = []):
+    usuario =  {
+        "nome": input("Nome: "),
+        "data_de_nascimento": input("Data de Nascimento: "),
+        "CPF": input("CPF: "),
+        "endereco": input("Endereço: ")
+    }
+    cpf_existente = {user['CPF'] for user in lista_usuarios} # crio um set de CPFs já que não pode repetir,  percorrendo cada usuario na lista.
+    if usuario['CPF'] not in cpf_existente:
+        lista_usuarios.append(usuario)
+        print("Usuário criado com sucesso!")
+    else:
+        print("Usuário já cadastrado neste CPF!")
+
+
+######################## CRIAR CONTA CORRENTE #########################
+
+def criar_conta_corrente(lista_de_contas = [], lista_de_usuarios = []):
+    AGENCIA = 0001
+
+
 
 
 menu = '''

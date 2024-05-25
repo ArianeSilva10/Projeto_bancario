@@ -18,7 +18,7 @@ class Cliente(Pessoa):
         transacao.registrar(conta)
 
     def adicionar_conta(conta):
-        pass
+        Conta.nova_conta(Cliente, numero=0)
 
 
 class Conta:
@@ -78,6 +78,26 @@ class Conta_Corrente(Conta):
             [transacao for transacao in self.historico.transacoes if transacao["tipo"] == Saque.__name__]
         )
 
+        acima_limite = valor > self.limite
+        acima_limite_saque = numero_saque >= self.limite_saques
+
+        if acima_limite:
+            print("Valor acima do saldo!")
+
+        elif acima_limite_saque:
+            print("Número máximo de saques diário atingido! Por favor, tente outro dia")
+
+        else:
+            return super().sacar(valor)
+        
+
+    def __str__(self) -> str:
+        return f'''
+            Agência:      {self._agencia}
+            C/C:          {self._numero}
+            Titular:      {self._cliente.nome}
+        '''
+
 
 class Transacao(Cliente):
     def registrar(Conta):
@@ -85,5 +105,15 @@ class Transacao(Cliente):
 
 
 class Historico:
-    def adicionar_transacao(transacao):
-        pass
+    def __init__(self) -> None:
+        self._transacoes = []
+
+    @property
+    def transacoes(self):
+        return self._transacoes
+
+    def adicionar_transacao(self, transacao):
+        self._transacoes.append(
+            "tipo": Transacao.__class__.__name__,
+            "Valor": Transacao.valor
+        )

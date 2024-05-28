@@ -17,7 +17,7 @@ class Cliente(Pessoa):
     def realizar_transacao(self, conta, transacao):
         transacao.registrar(conta)
 
-    def adicionar_conta(conta):
+    def adicionar_conta(self, conta):
         Conta.nova_conta(Cliente, numero=0)
 
 
@@ -100,9 +100,8 @@ class Conta_Corrente(Conta):
 
 
 class Transacao(Cliente):
-    def registrar(Conta):
+    def registrar(self,Conta):
         pass
-
 
 class Historico:
     def __init__(self) -> None:
@@ -112,8 +111,40 @@ class Historico:
     def transacoes(self):
         return self._transacoes
 
-    def adicionar_transacao(self, transacao):
+    def adicionar_transacao(self, Transacao):
         self._transacoes.append(
-            "tipo": Transacao.__class__.__name__,
-            "Valor": Transacao.valor
-        )
+            {
+                "tipo": Transacao.__class__.__name__,
+                "Valor": Transacao.valor
+                }
+            )
+
+class Saque(Transacao):
+    def __init__(self, valor) -> None:
+        super().__init__()
+        self._valor = valor
+
+    @property
+    def valor(self):
+        return self._valor
+    
+    def registrar(self, conta):
+        concluida_transacao = conta.sacar(self.valor)
+
+        if concluida_transacao:
+            conta.historico.adicionar_transacao(self)
+
+class Deposito(Transacao):
+    def __init__(self, valor) -> None:
+        super().__init__()
+        self._valor = valor
+
+    @property
+    def valor(self):
+        return self._valor
+    
+    def registrar(self, conta):
+        concluida_transacao = conta.depositar(self.valor)
+        if concluida_transacao:
+            conta.historico.adicionar_transacao(self)
+    

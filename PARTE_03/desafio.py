@@ -18,7 +18,7 @@ class Cliente(Pessoa):
         transacao.registrar(conta)
 
     def adicionar_conta(self, conta):
-        Conta.nova_conta(Cliente, numero=0)
+        conta.nova_conta(Cliente, numero=0)
 
 
 class Conta:

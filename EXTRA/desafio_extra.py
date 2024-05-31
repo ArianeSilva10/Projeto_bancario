@@ -147,7 +147,7 @@ class Historico:
             {
                 "tipo": transacao.__class__.__name__,
                 "valor": transacao.valor,
-                "data": datetime.now().strftime("%d-%m-%Y %H:%M:%s"),
+                "data": datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),
             }
         )
 
@@ -215,7 +215,7 @@ class Deposito(Transacao):
 def log_transacao(func):
     def log(*args, **kwargs):
         func(*args, **kwargs)
-        print(func.__name__ + " realizado em " + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
+        print(func.__name__.upper() + " realizado em " + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
     return log
 
 
@@ -300,17 +300,18 @@ def exibir_extrato(clientes):
 
     print("\n================ EXTRATO ================")
     # TODO: atualizar a implementação para utilizar o gerador definido em Historico
-    tipo_transacao = input("Deseja filtrar o Histórico? Digite 's' para SIM / 'n' para NÃO")
+    tipo_transacao = input("Deseja filtrar o Histórico? Digite 's' para SIM / 'n' para NÃO\n")
     transacoes = []
     if tipo_transacao == "n":
-        transacoes.append(conta.historico.gerar_relatorio)
+        transacoes.extend(conta.historico.gerar_relatorio())
 
     elif tipo_transacao == "s":
-        tipo_transacao = input("Para filtrar SAQUES, digite 's'. Para filtrar DEPÓSITOS digite 'd'.")
-        transacoes.append(conta.historico.gerar_relatorio(tipo_transacao))
+        tipo_transacao = input("Para filtrar SAQUES, digite 's'. Para filtrar DEPÓSITOS digite 'd'.\n")
+        transacoes.extend(conta.historico.gerar_relatorio(tipo_transacao))
 
     else:
         print("Operação inválida!")
+        return
 
 
     extrato = ""
